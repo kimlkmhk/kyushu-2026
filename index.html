@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="九州之旅">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#D4564E">
+<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
 <!-- 防止搜尋引擎抓取 -->
 <meta name="robots" content="noindex, nofollow">
 <!-- Web App Manifest (inline data URI) -->
@@ -514,20 +515,6 @@ function st(t){
 if(window.navigator.standalone===true||window.matchMedia('(display-mode:standalone)').matches){
   document.body.classList.add('standalone');
 }
-
-// ═══ Apple touch icon (PNG via canvas) ═══
-(function(){
-  try{
-    var c=document.createElement('canvas');c.width=180;c.height=180;
-    var x=c.getContext('2d');
-    var g=x.createLinearGradient(0,0,180,180);
-    g.addColorStop(0,'#D4564E');g.addColorStop(0.5,'#E8896E');g.addColorStop(1,'#D4A843');
-    x.fillStyle=g;x.beginPath();x.roundRect(0,0,180,180,36);x.fill();
-    x.font='100px serif';x.textAlign='center';x.textBaseline='middle';x.fillText('🌸',90,96);
-    var link=document.createElement('link');link.rel='apple-touch-icon';link.href=c.toDataURL('image/png');
-    document.head.appendChild(link);
-  }catch(e){}
-})();
 </script>
 </body>
 </html>
