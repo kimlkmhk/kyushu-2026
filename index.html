@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="九州の旅">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#D4564E">
+<!-- 防止搜尋引擎抓取 -->
+<meta name="robots" content="noindex, nofollow">
+<!-- Web App Manifest (inline data URI) -->
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22%E4%B9%9D%E5%B7%9E%E3%81%AE%E6%97%85%202026%22%2C%22short_name%22%3A%22%E4%B9%9D%E5%B7%9E%E6%97%85%E8%A1%8C%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23FAF6F0%22%2C%22theme_color%22%3A%22%23D4564E%22%2C%22icons%22%3A%5B%5D%7D">
+<title>九州の旅 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF6F0;--card:#FFF;--ink:#2C2520;--ink-l:#6B5E54;--ink-f:#A89B90;--acc:#D4564E;--acc-s:#F2D4CF;--grn:#7BA68A;--grn-s:#D5E8D4;--blu:#3D5A80;--blu-s:#C8D6E5;--gld:#D4A843;--gld-s:#F5E6C3;--ons:#E8B96E;--ons-s:#FDF0D5;--pur:#8B7EC8;--pur-s:#E8E0F5;--pnk:#C87EA0;--sh:0 2px 16px rgba(44,37,32,.07);--r:16px;--rs:10px;--nh:64px}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--ink);min-height:100dvh;padding-top:0;padding-bottom:calc(var(--nh)+env(safe-area-inset-bottom,0)+12px);overflow-x:hidden}
+/* Standalone mode: hero needs extra top padding for status bar */
+@media all and (display-mode:standalone){.hero{padding-top:calc(env(safe-area-inset-top,44px) + 16px)}}
+@supports(-webkit-touch-callout:none){body.standalone .hero{padding-top:calc(env(safe-area-inset-top,44px) + 16px)}}
+
+/* ═══ Hero ═══ */
+.hero{position:relative;padding:60px 20px 20px;background:linear-gradient(135deg,#D4564E,#E8896E 50%,#D4A843);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.15),transparent 50%)}
+.hero-pat{position:absolute;inset:0;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M30 8Q37 0 44 8Q51 16 44 24Q37 32 30 24Q23 32 16 24Q9 16 16 8Q23 0 30 8Z' fill='white'/%3E%3C/svg%3E")}
+.sf{position:absolute;width:100%;height:100%;pointer-events:none}.p{position:absolute;width:10px;height:10px;background:rgba(255,255,255,.25);border-radius:50% 0 50% 50%;animation:fl linear infinite}
+.p:nth-child(1){left:12%;animation-duration:6s;top:-8px}.p:nth-child(2){left:35%;animation-duration:8s;animation-delay:1s;top:-8px;width:8px;height:8px}.p:nth-child(3){left:58%;animation-duration:7s;animation-delay:2s;top:-8px}.p:nth-child(4){left:80%;animation-duration:9s;animation-delay:.5s;top:-8px;width:7px;height:7px}
+@keyframes fl{0%{transform:translateY(-20px) rotate(0);opacity:0}10%{opacity:1}90%{opacity:.4}100%{transform:translateY(260px) rotate(360deg);opacity:0}}
+.hc{position:relative;z-index:2;color:#fff}
+.hc h1{font-family:'Zen Maru Gothic';font-weight:900;font-size:28px;text-shadow:0 2px 10px rgba(0,0,0,.12);letter-spacing:2px}
+.hc .sub{font-size:12px;opacity:.85;margin-top:4px;font-weight:300;letter-spacing:1px}
+.hc .dt{display:inline-block;margin-top:8px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:5px 12px;border-radius:16px;font-size:11px;font-weight:500}
+
+/* ═══ Day Selector ═══ */
+.day-sel{display:flex;gap:6px;padding:12px 16px 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:0;z-index:50;background:var(--bg)}
+.day-sel::-webkit-scrollbar{display:none}
+.ds{flex:0 0 auto;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:all .2s;background:var(--card);color:var(--ink-l);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.ds.on{color:#fff;box-shadow:0 2px 12px rgba(212,86,78,.3)}
+.ds[data-c="1"].on{background:var(--acc)}.ds[data-c="2"].on{background:var(--grn)}.ds[data-c="3"].on{background:var(--blu)}.ds[data-c="4"].on{background:var(--ons)}.ds[data-c="5"].on{background:var(--gld)}.ds[data-c="6"].on{background:var(--pur)}.ds[data-c="7"].on{background:var(--pnk)}.ds[data-c="8"].on{background:var(--ink-l)}
+
+/* ═══ Day Content ═══ */
+.day-page{display:none;padding:8px 16px 16px;animation:fi .25s ease}
+.day-page.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.day-title{font-family:'Zen Maru Gothic';font-size:20px;font-weight:900;margin-bottom:12px}
+.day-sub{font-size:12px;color:var(--ink-l);margin-bottom:14px}
+
+/* ═══ Item Cards ═══ */
+.it{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:10px;padding:14px 16px;border-left:4px solid var(--ink-f)}
+.it.food{border-color:var(--acc)}.it.spot{border-color:var(--grn)}.it.transport{border-color:var(--blu)}.it.hotel{border-color:var(--gld)}.it.onsen{border-color:var(--ons)}.it.shop{border-color:var(--pur)}
+.it-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.it-cat.food{color:var(--acc)}.it-cat.spot{color:var(--grn)}.it-cat.transport{color:var(--blu)}.it-cat.hotel{color:var(--gld)}.it-cat.onsen{color:var(--ons)}.it-cat.shop{color:var(--pur)}
+.it-name{font-size:15px;font-weight:700;margin-bottom:3px;font-family:'Zen Maru Gothic'}
+.it-desc{font-size:12px;color:var(--ink-l);line-height:1.55}
+.it-desc b{color:var(--ink);font-weight:600}
+.it-time{font-size:11px;color:var(--ink-f);margin-top:3px}
+.it-warn{font-size:11px;color:var(--acc);font-weight:600;margin-top:4px;padding:3px 8px;background:var(--acc-s);border-radius:6px;display:inline-block}
+.mb{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:5px 11px;background:linear-gradient(135deg,#4285F4,#34A853);color:#fff;border-radius:16px;font-size:11px;font-weight:600;text-decoration:none;box-shadow:0 2px 6px rgba(66,133,244,.25)}
+.mb:active{transform:scale(.96)}.mb svg{width:12px;height:12px;fill:#fff}
+.rv{display:inline-flex;align-items:center;gap:3px;margin-top:3px;padding:2px 8px;background:var(--acc-s);color:var(--acc);border-radius:8px;font-size:10px;font-weight:700}
+
+/* ═══ Transport & Hotel Sections ═══ */
+.sec{display:none;padding:16px}.sec.on{display:block;animation:fi .25s ease}
+.sec-t{font-family:'Zen Maru Gothic';font-size:19px;font-weight:900;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.tc{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;padding:16px}
+.tc-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tc-i{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tc-i.car{background:var(--blu-s)}.tc-i.trn{background:var(--grn-s)}.tc-i.pln{background:var(--acc-s)}
+.tc-tt{font-weight:700;font-size:14px}.tc-st{font-size:11px;color:var(--ink-f)}
+.tc-d{background:var(--bg);border-radius:var(--rs);padding:10px 12px;font-size:12px;line-height:1.7;color:var(--ink-l)}
+.tc-d strong{color:var(--ink);font-weight:600}
+.hc2{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.ha{height:4px}.hb{padding:14px 16px}
+.hn{font-size:15px;font-weight:700;font-family:'Zen Maru Gothic';margin-bottom:2px}
+.hd{font-size:12px;color:var(--ink-l);margin-bottom:6px}
+.hng{display:inline-block;padding:2px 8px;background:var(--gld-s);color:var(--gld);border-radius:8px;font-size:10px;font-weight:700;margin-left:4px}
+.hi{font-size:12px;color:var(--ink-l);line-height:1.5}
+
+/* ═══ Bottom Nav ═══ */
+.bn{position:fixed;bottom:0;left:0;right:0;height:var(--nh);background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom,0);z-index:100}
+.ni{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 14px;border-radius:12px;cursor:pointer;transition:all .2s;user-select:none;background:none;border:none;font-family:inherit}
+.ni svg{width:20px;height:20px;color:var(--ink-f);transition:color .2s}.ni span{font-size:10px;color:var(--ink-f);font-weight:500;transition:color .2s}
+.ni.on svg{color:var(--acc)}.ni.on span{color:var(--acc);font-weight:700}.ni.on{background:var(--acc-s)}
+
+.c1{background:var(--acc)}.c2{background:var(--grn)}.c3{background:var(--blu)}.c4{background:var(--ons)}.c5{background:var(--gld)}.c6{background:var(--pur)}.c7{background:var(--pnk)}.c8{background:var(--ink-l)}
+::-webkit-scrollbar{width:0}
+@media(min-width:480px){body{max-width:430px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,.08)}.bn{max-width:430px;left:50%;transform:translateX(-50%)}.day-sel{max-width:430px}}
+</style>
+</head>
+<body>
+<div class="hero"><div class="hero-pat"></div><div class="sf"><div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div></div><div class="hc"><h1>九州の旅</h1><div class="sub">福岡 · 大分 · 黑川溫泉 · 由布院 · 別府</div><div class="dt">🌸 2026.04.14 — 04.21 ｜ 8天7夜</div></div></div>
+
+<!-- ═══ Day Selector ═══ -->
+<div class="day-sel" id="dsel">
+<button class="ds on" data-c="1" onclick="sd(1)">D1 抵達</button>
+<button class="ds" data-c="2" onclick="sd(2)">D2 太宰府</button>
+<button class="ds" data-c="3" onclick="sd(3)">D3 取車</button>
+<button class="ds" data-c="4" onclick="sd(4)">D4 黑川</button>
+<button class="ds" data-c="5" onclick="sd(5)">D5 由布院</button>
+<button class="ds" data-c="6" onclick="sd(6)">D6 回福岡</button>
+<button class="ds" data-c="7" onclick="sd(7)">D7 散步</button>
+<button class="ds" data-c="8" onclick="sd(8)">D8 離境</button>
+</div>
+
+<!-- ═══ SECTION: ITINERARY ═══ -->
+<div id="sec-it">
+
+<!-- DAY 1 -->
+<div class="day-page on" id="d1">
+<div class="day-title">✈️ Day 1｜抵達福岡</div>
+<div class="day-sub">4/14（二）｜住：Forza 博多駅筑紫口Ⅱ</div>
+
+<div class="it transport"><div class="it-cat transport">交通</div><div class="it-name">抵達福岡機場</div><div class="it-desc">地鐵空港線→博多站約5分鐘，國際線需先搭免費接駁巴士至國內線航廈再轉地鐵</div></div>
+
+<div class="it hotel"><div class="it-cat hotel">入住</div><div class="it-name">Forza 博多駅筑紫口Ⅱ</div><div class="it-desc">博多站筑紫口步行1分鐘，交通極便利，房間有大窗景。先放行李輕裝出發</div><a class="mb" href="https://www.google.com/maps/search/Hotel+Forza+Hakataeki+Chikushiguchi+II" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">美食</div><div class="it-name">博多喜水丸</div><div class="it-desc">KITTE博多B1或博多一番街都有分店。海鮮定食搭配博多名物<b>明太子食べ放題</b>，推薦ゴマサバ（芝麻鯖魚）、天ぷら定食</div><a class="mb" href="https://www.google.com/maps/search/喜水丸+博多1番街" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">AMU PLAZA 博多</div><div class="it-desc">JR博多城主館，1-8F 潮流服飾（UNITED ARROWS、BEAMS、JOURNAL STANDARD），9-10F 美食街「KOOTEN」有博多一風堂、SNOOPY咖啡等名店</div><a class="mb" href="https://www.google.com/maps/search/アミュプラザ博多" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">博多阪急</div><div class="it-desc">B1-8F百貨，美妝專櫃（SUQQU、NARS、THREE）、精品服飾、B1甜點伴手禮區品項豐富</div><a class="mb" href="https://www.google.com/maps/search/博多阪急" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">KITTE 博多 / 博多丸井</div><div class="it-desc">和風原木色設計商場，1-7F 博多マルイ有Uniqlo、設計雜貨、文具品牌、百元店Seria。6F有HMV&BOOKS，REC COFFEE也在此</div><a class="mb" href="https://www.google.com/maps/search/KITTE博多" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">DEITOS（博多麵街道）</div><div class="it-desc">2F「博多麵街道」集結12間九州拉麵名店（長浜ナンバーワン、元祖博多だるま等），1F 居酒屋「博多ほろよい通り」，伴手禮也多</div><a class="mb" href="https://www.google.com/maps/search/博多デイトス" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">AMU EST</div><div class="it-desc">筑紫口側，平價女裝聚集地（3COINS、靴下屋、ABC MART），預算友善逛街首選</div><a class="mb" href="https://www.google.com/maps/search/AMU+EST+博多" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">HANDS 博多</div><div class="it-desc">AMU PLAZA 內1-5F，日系生活雜貨、文具、廚房用品、美妝小物，雜貨控天堂</div><a class="mb" href="https://www.google.com/maps/search/ハンズ博多店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">MUEN COFFEE</div><div class="it-desc">博多站附近風格咖啡廳，空間靜謐適合歇腳，手沖咖啡水準穩定</div><a class="mb" href="https://www.google.com/maps/search/MUEN+COFFEE+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">博多一雙（博多駅東本店）</div><div class="it-desc">濃厚「泡系」豚骨拉麵代表，湯頭經長時間熬煮呈乳白泡沫狀，配上極細麵條，重口味豚骨控必訪</div><a class="mb" href="https://www.google.com/maps/search/博多一双+博多駅東本店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+</div>
+
+<!-- DAY 2 -->
+<div class="day-page" id="d2">
+<div class="day-title">⛩️ Day 2｜太宰府 → 天神 → 大名</div>
+<div class="day-sub">4/15（三）｜住：Forza 博多駅筑紫口Ⅱ</div>
+
+<div class="it food"><div class="it-cat food">早餐</div><div class="it-name">たんや HAKATA</div><div class="it-desc">博多站旁人氣牛舌早餐定食，厚切炭烤牛舌搭配麥飯和山藥泥，開店即排隊</div><a class="mb" href="https://www.google.com/maps/search/たんやHAKATA+博多駅" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">竈門神社（寶滿宮）</div><div class="it-desc">神社內的「御守授與所」由世界級設計師打造，玻璃帷幕超美。<br>🎀 熱門御守：「むすびの糸」（結緣之絲）、「いちご守」（草莓守）、「しあわせ鈴」幸福鈴、戀愛成就守</div><a class="mb" href="https://www.google.com/maps/search/宝満宮竈門神社" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">太宰府天滿宮</div><div class="it-desc">日本學問之神菅原道真的總本社，參拜後摸境內「御神牛」銅像的頭可保佑智慧。境內千年樟樹和太鼓橋也是必看</div><a class="mb" href="https://www.google.com/maps/search/太宰府天満宮" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">參道小食</div><div class="it-name">味之明太子 FUKUYA（ふくや）</div><div class="it-desc">⭐ 必點<b>「明太子茶泡飯兩層塔」</b>！上層是明太子拌飯，下層是高湯茶泡飯，一碗享受兩種吃法。明太子發祥店ふくや的太宰府限定體驗</div><a class="mb" href="https://www.google.com/maps/search/ふくや+太宰府+明太子" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">參道小食</div><div class="it-name">梅枝餅「安武」</div><div class="it-desc">參道上的老字號梅枝餅專賣，現烤薄脆外皮包裹甜而不膩的紅豆餡，出爐即食最香，是太宰府最傳統的味道</div><a class="mb" href="https://www.google.com/maps/search/安武+梅ヶ枝餅+太宰府" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it transport"><div class="it-cat transport">移動</div><div class="it-name">西鐵太宰府 → 福岡（天神）</div><div class="it-desc">中午搭西鐵回天神，約30分鐘。西鐵太宰府站→二日市站換車→西鐵福岡（天神）站</div></div>
+
+<div class="it shop"><div class="it-cat shop">逛街</div><div class="it-name">天神地下街</div><div class="it-desc">全長590m的歐風地下購物街，19世紀歐洲風格拱頂天花板超美。集結約150間服飾、雜貨、咖啡廳，下雨天也能逛到忘記時間</div><a class="mb" href="https://www.google.com/maps/search/天神地下街+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">逛街</div><div class="it-name">大名區域</div><div class="it-desc">福岡的裏原宿，隱藏大量古著店、獨立咖啡廳、選物店和個性小店。隨意鑽巷弄探險最有趣</div><a class="mb" href="https://www.google.com/maps/search/大名+福岡+ショッピング" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">光珈琲 HIKARU COFFEE</div><div class="it-desc">大名區人氣自家烘焙咖啡廳，木質調空間搭配柔和燈光，手沖單品咖啡和自製甜點都很出色</div><a class="mb" href="https://www.google.com/maps/search/光珈琲+HIKARU+COFFEE+福岡+大名" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">麺や兼虎</div><div class="it-desc">福岡辛辣沾麵No.1，極粗麵條沾濃厚辣味豚骨醬汁，辣度可選。排隊名店但翻桌快，回博多站附近吃剛好</div><a class="mb" href="https://www.google.com/maps/search/麺や兼虎+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-page" id="d3">
+<div class="day-title">🚗 Day 3｜取車上山</div>
+<div class="day-sub">4/16（四）｜住：花與星星（花と星）</div>
+
+<div class="it transport"><div class="it-cat transport">租車</div><div class="it-name">TOYOTA Rent a Car 博多站前店 取車</div><div class="it-desc">RAIZE / SUV / AT / 禁煙</div><div class="it-time">🕐 11:00 取車</div><div class="it-warn">⚠️ 取車時務必確認已插入 ETC 卡</div><div class="rv">📋 已預約</div><a class="mb" href="https://www.google.com/maps/place/トヨタレンタカー+博多駅前店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">休息站</div><div class="it-name">山田SA（下行・大分方向）</div><div class="it-desc">大分自動車道，福岡縣朝倉市<br>🍞 <b>脆皮咖哩麵包</b>：「山田麵包店」現烤，外皮極脆內餡濃郁<br>🍗 <b>大分雞肉飯（鳥めし）</b>：大分靈魂美食，買一盒飯糰車上吃也讚<br>🍐 <b>日田梨果汁/冰淇淋</b>：鄰近日田市名產，清甜解渴<br>🍓 <b>大分草莓</b>：4月中旬仍有少量，SA農產品專櫃當天採摘，帶上山當宵夜</div><div class="it-warn">⚠️ 花公園最遲入園 16:30 → 山田SA→花公園約1.5h → 最遲 15:00 離開山田</div><a class="mb" href="https://www.google.com/maps/search/山田サービスエリア+下り+大分自動車道" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航（下行）</a></div>
+
+<div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">久住花公園</div><div class="it-desc">阿蘇九重國立公園內，海拔800m、佔地20公頃的西日本最大花卉公園。4月正值鬱金香＋芝櫻盛開，以九重連山為背景拍照超壯觀</div><div class="it-time">⏰ 最遲入園 16:30</div><a class="mb" href="https://www.google.com/maps/search/くじゅう花公園" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it hotel"><div class="it-cat hotel">住宿</div><div class="it-name">花與星星（花と星）</div><div class="it-desc">久住高原上的溫馨旅宿，一泊二食。遠離光害，夜晚可欣賞滿天星空，四月花公園正值花季</div><a class="mb" href="https://www.google.com/maps/search/花と星+久住高原" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+</div>
+
+<!-- DAY 4 -->
+<div class="day-page" id="d4">
+<div class="day-title">♨️ Day 4｜黑川溫泉</div>
+<div class="day-sub">4/17（五）｜住：夢龍膽</div>
+
+<div class="it food"><div class="it-cat food">早餐</div><div class="it-name">花與星星 早餐</div><div class="it-desc">旅宿一泊二食附餐，在高原上享用清晨早餐</div></div>
+
+<div class="it onsen"><div class="it-cat onsen">溫泉</div><div class="it-name">黑川溫泉 入湯手形</div><div class="it-desc">先到溫泉街中心「風の舎」遊客中心購買入湯手形（大人¥1,500），小國杉木製圓形木牌，可任選3間旅館泡湯。推薦有「立湯」的旅館（站著泡的深池！）</div><a class="mb" href="https://www.google.com/maps/search/黒川温泉+風の舎" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">甜點</div><div class="it-name">パティスリー麓（Patisserie Roku）</div><div class="it-desc">黑川溫泉最人氣甜點店！現做<b>巨大泡芙</b>外皮酥脆奶油爆漿，還有「大人味焦糖布丁」附獨立焦糖瓶自己淋</div><a class="mb" href="https://www.google.com/maps/search/パティスリー麓+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">小食</div><div class="it-name">どらどら銅鑼燒</div><div class="it-desc">溫泉街斜坡轉角的銅鑼燒專門店，手工鬆餅皮夾紅豆餡＋奶油大福，有5種口味可選，建議帶一份當伴手禮</div><a class="mb" href="https://www.google.com/maps/search/どらどら+銅鑼焼+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">小食</div><div class="it-name">湯音（ゆのん）</div><div class="it-desc">泡湯後來一支！阿蘇小國<b>澤西牛霜淇淋</b>奶香超濃，也有馬肉可樂餅（不腥！外脆內嫩），瓶裝冰牛奶是在地「湯上り文化」</div><a class="mb" href="https://www.google.com/maps/search/湯音+ゆのん+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">午餐</div><div class="it-name">WAROKU屋（わろく屋）</div><div class="it-desc">御客屋旅館姊妹店，明治時代古民宅改建。推薦<b>阿蘇赤牛肉咖哩</b>和黑豚咖哩，也有炸肥後赤雞</div><a class="mb" href="https://www.google.com/maps/search/わろく屋+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">買物</div><div class="it-name">後藤酒店</div><div class="it-desc">在地90年的雜貨舖兼便利店，いご坂階梯旁。黑川限定清酒、精釀啤酒（淡愛爾/皮爾森/深黑拉格三款），也有零食日用品</div><a class="mb" href="https://www.google.com/maps/search/後藤酒店+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">買物</div><div class="it-name">鬆弛熊之湯</div><div class="it-desc">黑川溫泉限定拉拉熊專門店！有泡湯版限定公仔和各種周邊，拉拉熊粉絲必朝聖</div><a class="mb" href="https://www.google.com/maps/search/リラックマの湯+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it hotel"><div class="it-cat hotel">住宿</div><div class="it-name">夢龍膽</div><div class="it-desc">黑川溫泉名旅館，一泊二食。私人露天風呂被樹林環抱，溫泉街散步後回來泡湯超療癒</div><a class="mb" href="https://www.google.com/maps/search/夢龍胆+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+</div>
+
+<!-- DAY 5 -->
+<div class="day-page" id="d5">
+<div class="day-title">🏔️ Day 5｜由布院＋別府</div>
+<div class="day-sub">4/18（六）｜住：AMANEK別府 YULA-RE</div>
+
+<div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">金鱗湖</div><div class="it-desc">湖底同時湧出溫泉和冷泉的奇妙湖泊，湖岸僅400m但晨霧時分如夢似幻。導航至入口停車場方便泊車</div><a class="mb" href="https://www.google.com/maps/search/金鱗湖入口駐車場+由布院" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>停車場導航</a></div>
+
+<div class="it food"><div class="it-cat food">午餐</div><div class="it-name">由布釜飯「心」金鱗湖本店</div><div class="it-desc">招牌<b>豊後牛/地雞/鰻魚まぶし三吃</b>：第一碗原味品嚐炭烤風味，第二碗加蔥花山葵等藥味，第三碗注入高湯做茶泡飯。土鍋炊飯配大分在地食材，由布院必吃</div><a class="mb" href="https://www.google.com/maps/search/由布まぶし心+金鱗湖本店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">小食</div><div class="it-name">Milch 本店</div><div class="it-desc">連續多年 Monde Selection 金獎！招牌<b>半熟起司蛋糕</b>有冰/熱兩種吃法——熱的起司呈半熔狀超邪惡，冰的綿密入口即化。也有布丁和費南雪</div><a class="mb" href="https://www.google.com/maps/search/由布院ミルヒ本店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">小食</div><div class="it-name">金賞可樂餅</div><div class="it-desc">全國可樂餅大賽金賞獎！和牛赤身＋男爵馬鈴薯製成，現炸金黃酥脆。<b>起司口味</b>超濃郁大推，¥200 起很平價</div><a class="mb" href="https://www.google.com/maps/search/金賞コロッケ+由布院" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">小食</div><div class="it-name">花麹菊家</div><div class="it-desc">創意<b>布丁銅鑼燒</b>——鬆軟銅鑼燒皮夾著整顆滑嫩焦糖布丁，一口咬下雙重口感。有原味和季節限定口味（草莓、抹茶等）</div><a class="mb" href="https://www.google.com/maps/search/花麹菊家+由布院" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">小食</div><div class="it-name">B-speak</div><div class="it-desc">由布院傳奇蛋糕捲，原味鮮奶油口感清爽不膩。中午前常售罄，由布院之森車上也有機會買到</div><a class="mb" href="https://www.google.com/maps/search/B-speak+由布院" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">狹霧台展望台</div><div class="it-desc">離開由布院往別府方向途經，停車眺望由布岳全景。天氣好時山嵐繚繞超壯觀，是經典拍照點</div><a class="mb" href="https://www.google.com/maps/search/狭霧台+由布院" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">別府地獄巡禮</div><div class="it-desc">七大地獄溫泉奇觀——海地獄（鈷藍色）、血池地獄（赤紅色）、鬼山地獄（鱷魚園）等。聯票可逛七處。導航至海地獄停車場</div><a class="mb" href="https://www.google.com/maps/search/海地獄+駐車場+別府" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>海地獄停車場</a></div>
+
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">LA ARADA</div><div class="it-desc">別府站附近的風格咖啡廳，自家烘焙豆。空間不大但氣氛好，適合地獄巡禮後小歇一杯<br>⏰ 營業時間建議出發前查 Instagram 確認（不定休）</div><a class="mb" href="https://www.google.com/maps/search/LA+ARADA+ラアラダ+別府" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">水天</div><div class="it-desc">別府在地人推薦的晚餐選擇</div><a class="mb" href="https://www.google.com/maps/search/7FJP%2BWM+別府+大分" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it hotel"><div class="it-cat hotel">住宿</div><div class="it-name">AMANEK別府 YULA-RE</div><div class="it-desc">別府駅前本町6-35，設計旅店，隔天方便往大分站還車</div><a class="mb" href="https://www.google.com/maps/search/AMANEK+YULA-RE+別府+駅前本町6-35" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+</div>
+
+<!-- DAY 6 -->
+<div class="day-page" id="d6">
+<div class="day-title">🚃 Day 6｜大分回福岡</div>
+<div class="day-sub">4/19（日）｜住：福岡蒙特利酒店</div>
+
+<div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">大分香水博物館</div><div class="it-desc">可體驗自己調配專屬香水（約30分鐘），展覽介紹世界香水歷史。別府出發約15分車程，適合還車前最後一站</div><a class="mb" href="https://www.google.com/maps/search/大分香りの博物館" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it transport"><div class="it-cat transport">還車</div><div class="it-name">TOYOTA 還車（大分站前店）</div><div class="it-desc">大分市東大道1-3-1 KCA アクロスプラザ大分駅南1F</div><div class="it-time">🕐 14:00 還車</div><div class="rv">📋 已預約</div><a class="mb" href="https://www.google.com/maps/place/トヨタレンタカー+大分駅前店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it transport"><div class="it-cat transport">列車</div><div class="it-name">由布院之森4號 🚃</div><div class="it-desc">JR九州人氣觀光列車，綠色車廂配木質內裝，沿途田園風光如移動度假村。車上有販賣部可買限定便當和B-speak蛋糕捲<br><b>大分 14:58 發 → 博多 18:10 著</b><br>1號車 1號AB｜禁菸席 指定席</div><div class="rv">🎫 已訂票</div></div>
+
+<div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">大東園 本店 🥩</div><div class="it-desc">福岡老字號燒肉名店，以和牛品質著稱。推薦特選カルビ（牛五花）和厚切牛舌，自家製味噌醬也是一絕</div><div class="it-time">🕐 20:15 ｜ 2名</div><div class="rv">📋 已預約 20:15</div><a class="mb" href="https://www.google.com/maps/search/大東園+本店+福岡+焼肉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it hotel"><div class="it-cat hotel">住宿</div><div class="it-name">福岡蒙特利酒店（ホテルモントレ福岡）</div><div class="it-desc">〒810-0004 福岡中央区渡辺通3-4-13，歐式建築風格飯店，鄰近天神、中洲商圈，步行可達</div><a class="mb" href="https://www.google.com/maps/search/ホテルモントレ福岡+渡辺通3-4-13" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+</div>
+
+<!-- DAY 7 -->
+<div class="day-page" id="d7">
+<div class="day-title">🍜 Day 7｜福岡散步日</div>
+<div class="day-sub">4/20（一）｜住：福岡蒙特利酒店</div>
+
+<div class="it food"><div class="it-cat food">午餐</div><div class="it-name">黒毛和牛 博多牛まぶし 武蔵</div><div class="it-desc">博多版釜飯三吃，使用A5黑毛和牛炭烤後鋪在土鍋飯上。同樣三種吃法：原味→藥味→高湯茶泡飯</div><a class="mb" href="https://www.google.com/maps/search/博多牛まぶし武蔵+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">Abeki</div><div class="it-desc">隱密巷弄內的風格咖啡廳，空間小巧但氛圍極佳，適合午後慢慢喝一杯手沖</div><a class="mb" href="https://www.google.com/maps/search/Abeki+coffee+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">選物</div><div class="it-name">B.B.B POTTERS</div><div class="it-desc">複合式生活選品＋咖啡空間，嚴選陶器、餐具、布製品和生活雜貨，有附設咖啡可邊喝邊逛</div><a class="mb" href="https://www.google.com/maps/search/BBB+POTTERS+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">古著</div><div class="it-name">TRAM</div><div class="it-desc">福岡人氣古著＋選物雜貨店，風格獨特的二手衣物和配件，挖寶感十足</div><a class="mb" href="https://www.google.com/maps/search/TRAM+古着+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">咖啡器具</div><div class="it-name">FILTER SUPPLY</div><div class="it-desc">手沖咖啡器具專門店，展售各品牌濾杯、手沖壺、磨豆機等，咖啡控的天堂</div><a class="mb" href="https://www.google.com/maps/search/FILTER+SUPPLY+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">COFFEE COUNTY Fukuoka</div><div class="it-desc">福岡精品咖啡代表，自家烘焙淺焙為主，風味明亮乾淨。店面簡潔現代，也可帶咖啡豆回家</div><a class="mb" href="https://www.google.com/maps/search/COFFEE+COUNTY+Fukuoka" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">博多運河城（Canal City Hakata）</div><div class="it-desc">福岡最大複合型購物中心，運河貫穿中庭有定時水舞表演。H&M、ZARA、無印良品、迪士尼商店、拉麵競技場等超過250間店舖</div><a class="mb" href="https://www.google.com/maps/search/キャナルシティ博多" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">博多牛雜鍋 德永屋總本店</div><div class="it-desc">博多名物<b>もつ鍋</b>（牛雜鍋）！國產牛小腸配大量韭菜和高麗菜，有醬油和味噌兩種湯底。最後加麵收尾是必須的</div><div class="it-time">🕐 20:00 ｜ 2名</div><div class="rv">📋 已預約 20:00</div><a class="mb" href="https://www.google.com/maps/search/德永屋+もつ鍋+総本店+博多" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+</div>
+
+<!-- DAY 8 -->
+<div class="day-page" id="d8">
+<div class="day-title">☕ Day 8｜咖啡豆＋鰻魚＋離境</div>
+<div class="day-sub">4/21（二）｜CX529 17:40 福岡→香港</div>
+
+<div class="it transport"><div class="it-cat transport">退房</div><div class="it-name">福岡蒙特利酒店退房</div><div class="it-desc">11:00 前退房，可寄放行李在櫃台</div></div>
+
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">豆香洞咖啡</div><div class="it-desc">福岡自家烘焙老舖，店主後藤直紀曾獲日本咖啡烘焙冠軍。現場手沖風味極佳，咖啡豆是最好的福岡伴手禮</div><a class="mb" href="https://www.google.com/maps/search/豆香洞コーヒー+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it food"><div class="it-cat food">午餐</div><div class="it-name">Unaginoeito（鰻のえいと）</div><div class="it-desc">福岡人氣鰻魚飯專門店，現殺現烤蒲燒鰻魚，外皮焦香肉質軟嫩，搭配特製甘醬油醬汁</div><div class="it-time">🕐 12:00 ｜ 2名 ｜ ID: PXZ6PZ</div><div class="rv">📋 已預約 12:00</div><a class="mb" href="https://www.google.com/maps/search/鰻のえいと+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
+<div class="it transport"><div class="it-cat transport">離境</div><div class="it-name">前往福岡機場 ✈️</div><div class="it-desc"><b>CX529｜17:40 福岡→香港</b><br>地鐵博多站→福岡空港約5分鐘，國際線需搭免費接駁巴士。建議至少起飛前2小時到達</div><a class="mb" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>機場導航</a></div>
+</div>
+
+</div><!-- end sec-it -->
+
+<!-- ═══ TRANSPORT SECTION ═══ -->
+<div class="sec" id="sec-tr">
+<div class="sec-t">🚄 交通資訊</div>
+
+<div class="tc"><div class="tc-h"><div class="tc-i car">🚗</div><div><div class="tc-tt">TOYOTA Rent a Car</div><div class="tc-st">4/16 — 4/19 自駕4天</div></div></div><div class="tc-d"><strong>車型：</strong>RAIZE / SUV / AT / 禁煙<br><strong>取車：</strong>4/16（四）11:00 博多站前店<br>📍 福岡市博多區博多駅東1-12-8 トヨタレンタリース博多駅前ビル内<br>📞 092-441-0100<br><strong>還車：</strong>4/19（日）14:00 大分站前店<br>📍 大分市東大道1-3-1 KCA アクロスプラザ大分駅南1F<br><strong>自駕路線：</strong>博多→大分自動車道→山田SA（下行）→久住花公園→黑川溫泉→由布院→別府→大分<br><strong style="color:var(--acc)">⚠️ 取車時務必確認 ETC 卡已插入車內</strong></div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/place/トヨタレンタカー+博多駅前店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>取車點導航</a> <a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/place/トヨタレンタカー+大分駅前店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>還車點導航</a></div>
+
+<div class="tc"><div class="tc-h"><div class="tc-i trn">🚃</div><div><div class="tc-tt">由布院之森4號</div><div class="tc-st">4/19 大分→博多</div></div></div><div class="tc-d"><strong>日期：</strong>2026年4月19日<br><strong>出發：</strong>大分駅 14:58<br><strong>抵達：</strong>博多駅 18:10（約3h12m，沿途停由布院等站）<br><strong>座位：</strong>1號車 1號AB｜禁菸席 指定席<br><strong>特色：</strong>JR九州D&S觀光列車，全車木質綠色內裝，設有展望車廂和販賣部。車上可買限定便當、B-speak蛋糕捲、由布院啤酒等</div></div>
+
+<div class="tc"><div class="tc-h"><div class="tc-i trn">🚇</div><div><div class="tc-tt">太宰府交通</div><div class="tc-st">4/15 博多→竈門神社→太宰府→天神</div></div></div><div class="tc-d"><strong>去程：</strong>博多站→（地鐵）→天神站→步行至西鐵福岡（天神）站→西鐵二日市站換車→西鐵太宰府站（約40分鐘）<br><strong>竈門神社：</strong>太宰府站搭社區巴士「まほろば号」約10分鐘可達<br><strong>替代：</strong>博多巴士總站直達巴士「旅人」到太宰府<br><strong>回程：</strong>西鐵太宰府→西鐵福岡（天神）站下車，直接接天神地下街逛街</div></div>
+
+<div class="tc"><div class="tc-h"><div class="tc-i pln">✈️</div><div><div class="tc-tt">福岡機場</div><div class="tc-st">4/14 抵達 · 4/21 CX529 17:40→HKG</div></div></div><div class="tc-d"><strong>抵達日：</strong>國際線→免費接駁巴士（約15分）→國內線航廈→地鐵空港線→博多站（約5分）<br><strong>離境日：</strong>CX529｜17:40 福岡→香港<br>博多站→地鐵空港線→國內線航廈→免費接駁巴士→國際線航廈<br><strong>建議：</strong>至少起飛前2小時到國際線航廈</div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>機場導航</a></div>
+</div>
+
+<!-- ═══ HOTEL SECTION ═══ -->
+<div class="sec" id="sec-ht">
+<div class="sec-t">🏨 住宿一覽</div>
+
+<div class="hc2"><div class="ha c1"></div><div class="hb"><div class="hn">Forza 博多駅筑紫口Ⅱ</div><div class="hd">4/14（二）— 4/16（四）<span class="hng">2晚</span></div><div class="hi">博多站筑紫口步行1分鐘直結，交通極便利。房間有大窗景可看博多站，適合抵達福岡頭兩晚輕鬆休息</div><a class="mb" style="margin-top:8px" href="https://www.google.com/maps/search/Hotel+Forza+Hakataeki+Chikushiguchi+II" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div></div>
+
+<div class="hc2"><div class="ha c3"></div><div class="hb"><div class="hn">花與星星（花と星）</div><div class="hd">4/16（四）<span class="hng">1晚</span></div><div class="hi">久住高原上的溫馨旅宿，一泊二食。遠離光害地區，夜晚可欣賞滿天星空。四月正值久住花公園鬱金香＋芝櫻花季</div><a class="mb" style="margin-top:8px" href="https://www.google.com/maps/search/花と星+久住高原" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div></div>
+
+<div class="hc2"><div class="ha c4"></div><div class="hb"><div class="hn">夢龍膽</div><div class="hd">4/17（五）<span class="hng">1晚</span></div><div class="hi">黑川溫泉名旅館，一泊二食。私人露天風呂被天然樹林環抱，溫泉水質柔滑。溫泉街散步後回來泡湯超療癒</div><a class="mb" style="margin-top:8px" href="https://www.google.com/maps/search/夢龍胆+黒川温泉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div></div>
+
+<div class="hc2"><div class="ha c5"></div><div class="hb"><div class="hn">AMANEK別府 YULA-RE</div><div class="hd">4/18（六）<span class="hng">1晚</span></div><div class="hi">別府駅前本町6-35，設計感溫泉旅店。位置在別府站步行範圍內，隔天方便開車前往大分站還車</div><a class="mb" style="margin-top:8px" href="https://www.google.com/maps/search/AMANEK+YULA-RE+別府+駅前本町6-35" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div></div>
+
+<div class="hc2"><div class="ha c6"></div><div class="hb"><div class="hn">福岡蒙特利酒店（ホテルモントレ福岡）</div><div class="hd">4/19（日）— 4/21（二）<span class="hng">2晚</span></div><div class="hi">〒810-0004 福岡中央区渡辺通3-4-13。歐式古典建築風格飯店，鄰近天神、中洲商圈步行可達，最後兩晚市區購物和美食都超方便</div><a class="mb" style="margin-top:8px" href="https://www.google.com/maps/search/ホテルモントレ福岡+渡辺通3-4-13" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div></div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav class="bn">
+<button class="ni on" onclick="st('it')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>行程</span></button>
+<button class="ni" onclick="st('tr')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>交通</span></button>
+<button class="ni" onclick="st('ht')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>住宿</span></button>
+</nav>
+
+<script>
+function sd(n){document.querySelectorAll('.day-page').forEach(p=>p.classList.remove('on'));document.getElementById('d'+n).classList.add('on');document.querySelectorAll('.ds').forEach(b=>b.classList.remove('on'));document.querySelector('.ds[data-c="'+n+'"]').classList.add('on');window.scrollTo({top:document.getElementById('dsel').offsetTop-8,behavior:'smooth'})}
+function st(t){const secs=['it','tr','ht'];secs.forEach(s=>{document.getElementById('sec-'+s).classList.remove('on');document.getElementById('sec-'+s).style.display='none'});if(t==='it'){document.getElementById('sec-it').style.display='block';document.getElementById('dsel').style.display='flex'}else{document.getElementById('sec-'+t).classList.add('on');document.getElementById('sec-'+t).style.display='block';document.getElementById('dsel').style.display='none'}document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));event.currentTarget.classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+
+// Detect standalone mode (iOS "Add to Home Screen")
+if(window.navigator.standalone===true||window.matchMedia('(display-mode:standalone)').matches){
+  document.body.classList.add('standalone');
+}
+
+// Generate apple-touch-icon as PNG (iOS ignores SVG icons)
+(function(){
+  try{
+    var c=document.createElement('canvas');c.width=180;c.height=180;
+    var x=c.getContext('2d');
+    // Background gradient
+    var g=x.createLinearGradient(0,0,180,180);
+    g.addColorStop(0,'#D4564E');g.addColorStop(0.5,'#E8896E');g.addColorStop(1,'#D4A843');
+    x.fillStyle=g;
+    x.beginPath();x.roundRect(0,0,180,180,36);x.fill();
+    // Emoji
+    x.font='100px serif';x.textAlign='center';x.textBaseline='middle';
+    x.fillText('🌸',90,96);
+    var link=document.createElement('link');
+    link.rel='apple-touch-icon';link.href=c.toDataURL('image/png');
+    document.head.appendChild(link);
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
