@@ -71,7 +71,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 .tc{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;padding:16px}
 .tc-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .tc-i{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.tc-i.car{background:var(--blu-s)}.tc-i.trn{background:var(--grn-s)}.tc-i.pln{background:var(--acc-s)}
+.tc-i.car{background:var(--blu-s)}.tc-i.trn{background:var(--grn-s)}.tc-i.bus{background:var(--ons-s)}.tc-i.pln{background:var(--acc-s)}
 .tc-tt{font-weight:700;font-size:14px}.tc-st{font-size:11px;color:var(--ink-f)}
 .tc-d{background:var(--bg);border-radius:var(--rs);padding:10px 12px;font-size:12px;line-height:1.7;color:var(--ink-l)}
 .tc-d strong{color:var(--ink);font-weight:600}
@@ -92,7 +92,9 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 ::-webkit-scrollbar{width:0}
 
 /* ═══ Splash Screen ═══ */
-.splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#D4564E,#E8896E 50%,#D4A843);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease,transform .6s ease;padding-top:env(safe-area-inset-top,44px)}
+.splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#D4564E,#E8896E 50%,#D4A843);display:flex;align-items:stretch;justify-content:center;transition:opacity .6s ease,transform .6s ease}
+.sp-shell{width:min(100%,430px);min-height:100%;display:flex;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top,44px) + 24px) 24px calc(env(safe-area-inset-bottom,24px) + 24px)}
+.sp-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%}
 .splash.bye{opacity:0;transform:scale(1.05);pointer-events:none}
 .splash-icon{font-size:64px;animation:sp-bounce 1.2s ease infinite}
 @keyframes sp-bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.08)}}
@@ -102,9 +104,10 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 .sp-countdown .sp-unit{display:flex;flex-direction:column;align-items:center;min-width:48px}
 .sp-countdown .sp-num{font-family:'Zen Maru Gothic';font-weight:900;font-size:28px;color:#fff;background:rgba(255,255,255,.15);border-radius:10px;padding:4px 10px;min-width:48px;text-align:center}
 .sp-countdown .sp-lbl{font-size:10px;color:rgba(255,255,255,.6);margin-top:3px;letter-spacing:1px}
-.splash .sp-enter{margin-top:32px;padding:14px 40px;border:none;border-radius:28px;background:rgba(255,255,255,.95);color:#D4564E;font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:transform .15s,box-shadow .15s;animation:sp-pulse 2s ease-in-out infinite}
-.splash .sp-enter:active{transform:scale(.95);box-shadow:0 2px 10px rgba(0,0,0,.1)}
-@keyframes sp-pulse{0%,100%{transform:scale(1);box-shadow:0 4px 20px rgba(0,0,0,.15)}50%{transform:scale(1.03);box-shadow:0 6px 28px rgba(0,0,0,.2)}}
+.sp-countdown .sp-note{margin-top:10px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.6}
+.splash .sp-enter{margin-top:20px;padding:14px 40px;border:none;border-radius:28px;background:rgba(255,255,255,.95);color:#D4564E;font-family:'Zen Maru Gothic',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:transform .15s,box-shadow .15s;animation:sp-pulse 2s ease-in-out infinite;width:100%;max-width:220px}
+.splash .sp-enter:active{transform:scale(.97);box-shadow:0 2px 10px rgba(0,0,0,.1)}
+@keyframes sp-pulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.15)}50%{box-shadow:0 8px 28px rgba(0,0,0,.22)}}
 
 /* ═══ Dashboard Home ═══ */
 .home{padding:0 16px 16px;animation:fi .4s ease}
@@ -143,10 +146,14 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 <body>
 <!-- ═══ Splash Screen ═══ -->
 <div class="splash" id="splash">
+<div class="sp-shell">
+<div class="sp-main">
 <div class="splash-icon">🌸</div>
 <h2>九州之旅</h2>
 <div class="sp-countdown" id="sp-countdown"></div>
+</div>
 <button class="sp-enter" id="spEnter" onclick="dismissSplash()">開始旅程 →</button>
+</div>
 </div>
 
 <!-- ═══ Dashboard Home ═══ -->
@@ -159,7 +166,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="quick-stats">
 <div class="qs"><div class="qs-icon">📅</div><div class="qs-val">8</div><div class="qs-label">天</div></div>
-<div class="qs"><div class="qs-icon">🏨</div><div class="qs-val">4</div><div class="qs-label">住宿</div></div>
+<div class="qs"><div class="qs-icon">🏨</div><div class="qs-val">5</div><div class="qs-label">住宿</div></div>
 <div class="qs"><div class="qs-icon">🚗</div><div class="qs-val">4</div><div class="qs-label">自駕日</div></div>
 <div class="qs"><div class="qs-icon">🍜</div><div class="qs-val">5</div><div class="qs-label">預約</div></div>
 </div>
@@ -208,7 +215,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 <div class="day-title">✈️ Day 1｜抵達福岡</div>
 <div class="day-sub">4/14（二）｜住：Forza 博多駅筑紫口Ⅱ</div>
 
-<div class="it transport"><div class="it-cat transport">交通</div><div class="it-name">抵達福岡機場</div><div class="it-desc">地鐵空港線→博多站約5分鐘，國際線需先搭免費接駁巴士至國內線航廈再轉地鐵</div></div>
+<div class="it transport"><div class="it-cat transport">交通</div><div class="it-name">抵達福岡機場</div><div class="it-desc">抵達國際線後，先搭免費接駁巴士前往國內線航廈，再轉福岡市地下鐵空港線到博多站。接駁巴士白天班次密，約 5 至 6 分鐘一班；地鐵到博多約 5 分鐘，單程 260 円。</div><a class="mb" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>機場導航</a></div>
 
 <div class="it hotel"><div class="it-cat hotel">入住</div><div class="it-name">Forza 博多駅筑紫口Ⅱ</div><div class="it-desc">博多站筑紫口步行1分鐘，交通極便利，房間有大窗景。先放行李輕裝出發</div><a class="mb" href="https://www.google.com/maps/search/Hotel+Forza+Hakataeki+Chikushiguchi+II" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
@@ -246,7 +253,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it food"><div class="it-cat food">參道小食</div><div class="it-name">梅枝餅「安武」</div><div class="it-desc">參道上的老字號梅枝餅專賣，現烤薄脆外皮包裹甜而不膩的紅豆餡，出爐即食最香，是太宰府最傳統的味道</div><a class="mb" href="https://www.google.com/maps/search/安武+梅ヶ枝餅+太宰府" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it transport"><div class="it-cat transport">移動</div><div class="it-name">西鐵太宰府 → 福岡（天神）</div><div class="it-desc">中午搭西鐵回天神，約30分鐘。西鐵太宰府站→二日市站換車→西鐵福岡（天神）站</div></div>
+<div class="it transport"><div class="it-cat transport">移動</div><div class="it-name">西鐵太宰府 → 福岡（天神）</div><div class="it-desc">中午從西鐵太宰府站出發，通常在二日市換車後回到福岡（天神），全程約 30 至 40 分鐘。若當天以太宰府往返為主，可留意官方的 Fukuoka (Tenjin) ⇔ Dazaifu 1-day free pass，票價 820 円。</div><a class="mb" href="https://www.google.com/maps/search/西鉄福岡（天神）駅" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>天神站導航</a></div>
 
 <div class="it shop"><div class="it-cat shop">逛街</div><div class="it-name">天神地下街</div><div class="it-desc">全長590m的歐風地下購物街，19世紀歐洲風格拱頂天花板超美。集結約150間服飾、雜貨、咖啡廳，下雨天也能逛到忘記時間</div><a class="mb" href="https://www.google.com/maps/search/天神地下街+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
@@ -302,7 +309,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">金鱗湖</div><div class="it-desc">湖底同時湧出溫泉和冷泉的奇妙湖泊，湖岸僅400m但晨霧時分如夢似幻。導航至入口停車場方便泊車</div><a class="mb" href="https://www.google.com/maps/search/金鱗湖入口駐車場+由布院" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>停車場導航</a></div>
 
-<div class="it food"><div class="it-cat food">午餐</div><div class="it-name">由布釜飯「心」金鱗湖本店</div><div class="it-desc">招牌<b>豊後牛/地雞/鰻魚まぶし三吃</b>：第一碗原味品嚐炭烤風味，第二碗加蔥花山葵等藥味，第三碗注入高湯做茶泡飯。土鍋炊飯配大分在地食材，由布院必吃</div><a class="mb" href="https://www.google.com/maps/search/由布まぶし心+金鱗湖本店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">午餐</div><div class="it-name">由布釜飯「心」金鱗湖本店</div><div class="it-desc">招牌是<b>豐後牛炭烤釜飯三吃</b>，第一碗先吃原味米香與牛脂香，第二碗加蔥花、山葵與配料，第三碗再沖高湯做茶泡飯。土鍋現炊需要一些時間，很適合安排成由布院散步途中的重點午餐。</div><a class="mb" href="https://www.google.com/maps/search/由布まぶし心+金鱗湖本店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
 <div class="it food"><div class="it-cat food">小食</div><div class="it-name">Milch 本店</div><div class="it-desc">連續多年 Monde Selection 金獎！招牌<b>半熟起司蛋糕</b>有冰/熱兩種吃法——熱的起司呈半熔狀超邪惡，冰的綿密入口即化。也有布丁和費南雪</div><a class="mb" href="https://www.google.com/maps/search/由布院ミルヒ本店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
@@ -316,11 +323,11 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it spot"><div class="it-cat spot">景點</div><div class="it-name">別府地獄巡禮</div><div class="it-desc">七大地獄溫泉奇觀——海地獄（鈷藍色）、血池地獄（赤紅色）、鬼山地獄（鱷魚園）等。聯票可逛七處。導航至海地獄停車場</div><a class="mb" href="https://www.google.com/maps/search/海地獄+駐車場+別府" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>海地獄停車場</a></div>
 
-<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">LA ARADA</div><div class="it-desc">別府站附近的風格咖啡廳，自家烘焙豆。空間不大但氣氛好，適合地獄巡禮後小歇一杯<br>⏰ 營業時間建議出發前查 Instagram 確認（不定休）</div><a class="mb" href="https://www.google.com/maps/search/LA+ARADA+ラアラダ+別府" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">LA ARADA</div><div class="it-desc">別府站附近的風格咖啡廳，自家烘焙豆和義式咖啡都很受歡迎，適合地獄巡禮後坐下來休息一下。店家通常營業到約 18:00，偶有不定休，出發前可先看 Instagram 確認最新資訊。</div><a class="mb" href="https://www.google.com/maps/search/LA+ARADA+ラアラダ+別府" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">水天</div><div class="it-desc">別府在地人推薦的晚餐選擇</div><a class="mb" href="https://www.google.com/maps/search/7FJP%2BWM+別府+大分" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">水天</div><div class="it-desc">別府市區的晚餐選擇，適合在回飯店前順路安排一餐。導航時建議直接使用 Plus Code <b>7FJP+WM</b>，比較不容易導到別的位置；若前面行程拉得比較晚，也可以視體力彈性調整。</div><a class="mb" href="https://www.google.com/maps/search/7FJP%2BWM+別府+大分" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it hotel"><div class="it-cat hotel">住宿</div><div class="it-name">AMANEK別府 YULA-RE</div><div class="it-desc">別府駅前本町6-35，設計旅店，隔天方便往大分站還車</div><a class="mb" href="https://www.google.com/maps/search/AMANEK+YULA-RE+別府+駅前本町6-35" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it hotel"><div class="it-cat hotel">住宿</div><div class="it-name">AMANEK別府 YULA-RE</div><div class="it-desc">位於別府駅前本町 6-35，步行往返車站與周邊餐飲都很方便。住一晚可以好好休息，隔天再從容開往大分站還車。</div><a class="mb" href="https://www.google.com/maps/search/AMANEK+YULA-RE+別府+駅前本町6-35" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 </div>
 
 <!-- DAY 6 -->
@@ -332,7 +339,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it transport"><div class="it-cat transport">還車</div><div class="it-name">TOYOTA 還車（大分站前店）</div><div class="it-desc">大分市東大道1-3-1 KCA アクロスプラザ大分駅南1F</div><div class="it-time">🕐 14:00 還車</div><div class="rv">📋 已預約</div><a class="mb" href="https://www.google.com/maps/place/トヨタレンタカー+大分駅前店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it transport"><div class="it-cat transport">列車</div><div class="it-name">由布院之森4號 🚃</div><div class="it-desc">JR九州人氣觀光列車，綠色車廂配木質內裝，沿途田園風光如移動度假村。車上有販賣部可買限定便當和B-speak蛋糕捲<br><b>大分 14:58 發 → 博多 18:10 著</b><br>禁菸席 指定席</div><div class="rv">🎫 已訂票</div></div>
+<div class="it transport"><div class="it-cat transport">列車</div><div class="it-name">由布院之森4號 🚃</div><div class="it-desc">JR九州人氣觀光列車，綠色車廂與木質內裝很有旅行氣氛。<b>大分 14:58 發 → 博多 18:10 著</b>，禁菸指定席已劃位，車上也可留意限定便當和 B-speak 蛋糕捲。</div><div class="rv">🎫 已訂票</div><a class="mb" href="https://www.google.com/maps/search/大分駅" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>大分站導航</a></div>
 
 <div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">大東園 本店 🥩</div><div class="it-desc">福岡老字號燒肉名店，以和牛品質著稱。推薦特選カルビ（牛五花）和厚切牛舌，自家製味噌醬也是一絕</div><div class="it-time">🕐 20:15 ｜ 2名</div><div class="rv">📋 已預約 20:15</div><a class="mb" href="https://www.google.com/maps/search/大東園+本店+福岡+焼肉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
@@ -366,13 +373,13 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 <div class="day-title">☕ Day 8｜咖啡豆＋鰻魚＋離境</div>
 <div class="day-sub">4/21（二）｜CX529 17:40 福岡→香港</div>
 
-<div class="it transport"><div class="it-cat transport">退房</div><div class="it-name">福岡蒙特利酒店退房</div><div class="it-desc">11:00 前退房，可寄放行李在櫃台</div></div>
+<div class="it transport"><div class="it-cat transport">退房</div><div class="it-name">福岡蒙特利酒店退房</div><div class="it-desc">11:00 前完成退房後，可先把大件行李寄放在櫃台，再輕鬆去喝咖啡和吃鰻魚飯。回機場前再回飯店取行李，動線會更從容。</div><a class="mb" href="https://www.google.com/maps/search/ホテルモントレ福岡+渡辺通3-4-13" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>飯店導航</a></div>
 
 <div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">豆香洞咖啡</div><div class="it-desc">福岡自家烘焙老舖，店主後藤直紀曾獲日本咖啡烘焙冠軍。現場手沖風味極佳，咖啡豆是最好的福岡伴手禮</div><a class="mb" href="https://www.google.com/maps/search/豆香洞コーヒー+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
 <div class="it food"><div class="it-cat food">午餐</div><div class="it-name">Unaginoeito（鰻のえいと）</div><div class="it-desc">福岡人氣鰻魚飯專門店，現殺現烤蒲燒鰻魚，外皮焦香肉質軟嫩，搭配特製甘醬油醬汁</div><div class="it-time">🕐 12:00 ｜ 2名</div><div class="rv">📋 已預約 12:00</div><a class="mb" href="https://www.google.com/maps/search/鰻のえいと+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it transport"><div class="it-cat transport">離境</div><div class="it-name">前往福岡機場 ✈️</div><div class="it-desc"><b>CX529｜17:40 福岡→香港</b><br>地鐵博多站→福岡空港約5分鐘，國際線需搭免費接駁巴士。建議至少起飛前2小時到達</div><a class="mb" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>機場導航</a></div>
+<div class="it transport"><div class="it-cat transport">離境</div><div class="it-name">前往福岡機場 ✈️</div><div class="it-desc"><b>CX529｜17:40 福岡→香港</b><br>從博多搭地鐵空港線到福岡空港約 5 分鐘，單程 260 円；抵達後再轉免費接駁巴士到國際線。建議至少提早 2 小時抵達機場，預留接駁、報到與安檢時間。</div><a class="mb" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>機場導航</a></div>
 </div>
 
 </div><!-- end sec-it -->
@@ -383,11 +390,13 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="tc"><div class="tc-h"><div class="tc-i car">🚗</div><div><div class="tc-tt">TOYOTA Rent a Car</div><div class="tc-st">4/16 — 4/19 自駕4天</div></div></div><div class="tc-d"><strong>車型：</strong>RAIZE / SUV / AT / 禁煙<br><strong>取車：</strong>4/16（四）11:00 博多站前店<br>📍 福岡市博多區博多駅東1-12-8 トヨタレンタリース博多駅前ビル内<br>📞 092-441-0100<br><strong>還車：</strong>4/19（日）14:00 大分站前店<br>📍 大分市東大道1-3-1 KCA アクロスプラザ大分駅南1F<br><strong>自駕路線：</strong>博多→大分自動車道→山田SA（下行）→久住花公園→黑川溫泉→由布院→別府→大分<br><strong style="color:var(--acc)">⚠️ 取車時務必確認 ETC 卡已插入車內</strong></div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/place/トヨタレンタカー+博多駅前店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>取車點導航</a> <a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/place/トヨタレンタカー+大分駅前店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>還車點導航</a></div>
 
-<div class="tc"><div class="tc-h"><div class="tc-i trn">🚃</div><div><div class="tc-tt">由布院之森4號</div><div class="tc-st">4/19 大分→博多</div></div></div><div class="tc-d"><strong>日期：</strong>2026年4月19日<br><strong>出發：</strong>大分駅 14:58<br><strong>抵達：</strong>博多駅 18:10（約3h12m，沿途停由布院等站）<br><strong>座位：</strong>禁菸席 指定席<br><strong>特色：</strong>JR九州D&S觀光列車，全車木質綠色內裝，設有展望車廂和販賣部。車上可買限定便當、B-speak蛋糕捲、由布院啤酒等</div></div>
+<div class="tc"><div class="tc-h"><div class="tc-i trn">🚃</div><div><div class="tc-tt">由布院之森4號</div><div class="tc-st">4/19 大分→博多</div></div></div><div class="tc-d"><strong>日期：</strong>2026年4月19日<br><strong>出發：</strong>大分駅 14:58<br><strong>抵達：</strong>博多駅 18:10（約 3h12m，沿途停由布院等站）<br><strong>座位：</strong>禁菸席 指定席<br><strong>預約：</strong>已完成指定席劃位<br><strong>特色：</strong>JR九州D&amp;S觀光列車，全車木質綠色內裝，設有展望車廂和販賣部。車上可買限定便當、B-speak 蛋糕捲、由布院啤酒等</div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/search/大分駅" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>大分站導航</a></div>
 
-<div class="tc"><div class="tc-h"><div class="tc-i trn">🚇</div><div><div class="tc-tt">太宰府交通</div><div class="tc-st">4/15 博多→竈門神社→太宰府→天神</div></div></div><div class="tc-d"><strong>去程：</strong>博多站→（地鐵）→天神站→步行至西鐵福岡（天神）站→西鐵二日市站換車→西鐵太宰府站（約40分鐘）<br><strong>竈門神社：</strong>太宰府站搭社區巴士「まほろば号」約10分鐘可達<br><strong>替代：</strong>博多巴士總站直達巴士「旅人」到太宰府<br><strong>回程：</strong>西鐵太宰府→西鐵福岡（天神）站下車，直接接天神地下街逛街</div></div>
+<div class="tc"><div class="tc-h"><div class="tc-i bus">🚌</div><div><div class="tc-tt">福岡機場接駁巴士</div><div class="tc-st">國際線 ↔ 國內線</div></div></div><div class="tc-d"><strong>路線：</strong>福岡機場國際線航廈 ↔ 國內線航廈<br><strong>車程：</strong>約 10 至 15 分鐘，白天約 5 至 6 分鐘一班<br><strong>費用：</strong>免費<br><strong>預約：</strong>無需預約<br><strong>提醒：</strong>若從博多搭地鐵回機場，記得把接駁與國際線安檢時間一起預留</div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>接駁起點導航</a></div>
 
-<div class="tc"><div class="tc-h"><div class="tc-i pln">✈️</div><div><div class="tc-tt">福岡機場</div><div class="tc-st">4/14 抵達 · 4/21 CX529 17:40→HKG</div></div></div><div class="tc-d"><strong>抵達日：</strong>國際線→免費接駁巴士（約15分）→國內線航廈→地鐵空港線→博多站（約5分）<br><strong>離境日：</strong>CX529｜17:40 福岡→香港<br>博多站→地鐵空港線→國內線航廈→免費接駁巴士→國際線航廈<br><strong>建議：</strong>至少起飛前2小時到國際線航廈</div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>機場導航</a></div>
+<div class="tc"><div class="tc-h"><div class="tc-i trn">🚇</div><div><div class="tc-tt">太宰府交通</div><div class="tc-st">4/15 博多→竈門神社→太宰府→天神</div></div></div><div class="tc-d"><strong>去程：</strong>博多站→地下鐵空港線→天神站→步行至西鐵福岡（天神）站→西鐵二日市站換車→西鐵太宰府站（約 40 分鐘）<br><strong>票券：</strong>若當天以太宰府往返為主，可留意官方的 Fukuoka (Tenjin) ⇔ Dazaifu 1-day free pass，票價 820 円<br><strong>竈門神社：</strong>太宰府站搭社區巴士「まほろば号」約 10 分鐘；巴士票價以現場公告為準<br><strong>回程：</strong>回到福岡（天神）後，可直接步行銜接天神地下街與大名</div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/search/西鉄福岡（天神）駅" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>天神站導航</a></div>
+
+<div class="tc"><div class="tc-h"><div class="tc-i pln">✈️</div><div><div class="tc-tt">福岡機場</div><div class="tc-st">4/14 抵達 · 4/21 CX529 17:40→HKG</div></div></div><div class="tc-d"><strong>抵達日：</strong>國際線→免費接駁巴士（約 10 至 15 分）→國內線航廈→地鐵空港線→博多站（地鐵約 5 分，單程 260 円）<br><strong>離境日：</strong>CX529｜17:40 福岡→香港<br>博多站→地鐵空港線→福岡空港→免費接駁巴士→國際線航廈<br><strong>提醒：</strong>建議至少起飛前 2 小時抵達國際線，並預留接駁、報到與安檢時間</div><a class="mb" style="margin:10px 0 0" href="https://www.google.com/maps/search/福岡空港+国際線" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>機場導航</a></div>
 </div>
 
 <!-- ═══ HOTEL SECTION ═══ -->
@@ -415,35 +424,45 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <script>
 // ═══ Trip dates config ═══
-const TRIP_START=new Date('2026-04-14T00:00:00+09:00');
-const TRIP_END=new Date('2026-04-21T23:59:59+09:00');
+const DAY_MS=1000*60*60*24;
+const TRIP_START=new Date(2026,3,14,0,0,0);
+const TRIP_END=new Date(2026,3,21,23,59,59);
+const DEPARTURE_DAY_END=new Date(2026,3,14,23,59,59);
 const DAY_THEMES=['抵達福岡','太宰府→天神','取車上山','黑川溫泉','由布院＋別府','大分回福岡','福岡散步','鰻魚＋離境'];
 const DAY_EMOJIS=['✈️','⛩️','🚗','♨️','🏔️','🚃','🍜','☕'];
 
 // ═══ Splash Countdown Timer ═══
-var FLIGHT_TIME=new Date('2026-04-14T00:00:00+08:00'); // Departure day HKT
+var FLIGHT_TIME=new Date(2026,3,14,0,0,0);
 var splashTimer;
 
 function updateSplashCountdown(){
   var now=new Date();
   var diff=FLIGHT_TIME-now;
-  if(diff<=0){
-    document.getElementById('sp-countdown').innerHTML='出發的日子到了！';
-    if(splashTimer)clearInterval(splashTimer);
+  if(now<FLIGHT_TIME){
+    var d=Math.floor(diff/DAY_MS);
+    var h=Math.floor((diff%DAY_MS)/(1000*60*60));
+    var m=Math.floor((diff%(1000*60*60))/(1000*60));
+    var s=Math.floor((diff%(1000*60))/1000);
+
+    document.getElementById('sp-countdown').innerHTML=
+      '距離出發還有<div class="sp-timer">'+
+      '<div class="sp-unit"><div class="sp-num">'+d+'</div><div class="sp-lbl">天</div></div>'+
+      '<div class="sp-unit"><div class="sp-num">'+String(h).padStart(2,'0')+'</div><div class="sp-lbl">時</div></div>'+
+      '<div class="sp-unit"><div class="sp-num">'+String(m).padStart(2,'0')+'</div><div class="sp-lbl">分</div></div>'+
+      '<div class="sp-unit"><div class="sp-num">'+String(s).padStart(2,'0')+'</div><div class="sp-lbl">秒</div></div>'+
+      '</div>';
     return;
   }
-  var d=Math.floor(diff/(1000*60*60*24));
-  var h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-  var m=Math.floor((diff%(1000*60*60))/(1000*60));
-  var s=Math.floor((diff%(1000*60))/1000);
-
-  document.getElementById('sp-countdown').innerHTML=
-    '距離出發還有<div class="sp-timer">'+
-    '<div class="sp-unit"><div class="sp-num">'+d+'</div><div class="sp-lbl">天</div></div>'+
-    '<div class="sp-unit"><div class="sp-num">'+String(h).padStart(2,'0')+'</div><div class="sp-lbl">時</div></div>'+
-    '<div class="sp-unit"><div class="sp-num">'+String(m).padStart(2,'0')+'</div><div class="sp-lbl">分</div></div>'+
-    '<div class="sp-unit"><div class="sp-num">'+String(s).padStart(2,'0')+'</div><div class="sp-lbl">秒</div></div>'+
-    '</div>';
+  if(now<=DEPARTURE_DAY_END){
+    document.getElementById('sp-countdown').innerHTML='出發的日子到了！<div class="sp-note">打開首頁後，Day 1 會是你們今天最重要的清單。</div>';
+    return;
+  }
+  if(now<=TRIP_END){
+    var tripDay=Math.floor((now-TRIP_START)/DAY_MS)+1;
+    document.getElementById('sp-countdown').innerHTML='旅途進行中<div class="sp-note">現在是第 '+tripDay+' 天，打開後首頁會高亮今天的行程卡。</div>';
+    return;
+  }
+  document.getElementById('sp-countdown').innerHTML='旅程已圓滿結束<div class="sp-note">這趟福岡、大分、黑川與由布院的回憶，都還留在這裡。</div>';
 }
 
 // Start countdown immediately
@@ -468,9 +487,11 @@ function updateDashboard(){
   var el=document.getElementById('gc-greeting');
   var main=document.getElementById('gc-main');
   var cd=document.getElementById('gc-countdown');
+  var cards=document.querySelectorAll('.dg-card');
 
-  var tripDay=Math.floor((now-TRIP_START)/(1000*60*60*24))+1;
-  var daysUntil=Math.ceil((TRIP_START-now)/(1000*60*60*24));
+  var tripDay=Math.floor((now-TRIP_START)/DAY_MS)+1;
+  var daysUntil=Math.ceil((TRIP_START-now)/DAY_MS);
+  cards.forEach(function(c){c.classList.remove('today')});
 
   if(daysUntil>0){
     el.textContent='🌸 2026.04.14 — 04.21';
@@ -480,7 +501,6 @@ function updateDashboard(){
     el.textContent='旅途第 '+tripDay+' 天';
     main.innerHTML='Day '+tripDay+'｜'+DAY_EMOJIS[tripDay-1]+' '+DAY_THEMES[tripDay-1];
     cd.textContent='好好享受！';
-    var cards=document.querySelectorAll('.dg-card');
     cards.forEach(function(c,i){if(i===tripDay-1)c.classList.add('today')});
   }else{
     el.textContent='旅途回憶 ✨';
@@ -491,9 +511,10 @@ function updateDashboard(){
 
 function markToday(){
   var now=new Date();
-  var tripDay=Math.floor((now-TRIP_START)/(1000*60*60*24))+1;
+  var tripDay=Math.floor((now-TRIP_START)/DAY_MS)+1;
+  var cards=document.querySelectorAll('.dg-card');
+  cards.forEach(function(c){c.classList.remove('today')});
   if(tripDay>=1&&tripDay<=8){
-    var cards=document.querySelectorAll('.dg-card');
     cards[tripDay-1].classList.add('today');
   }
 }
