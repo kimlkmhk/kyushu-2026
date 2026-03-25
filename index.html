@@ -20,7 +20,7 @@
 :root{--bg:#FAF6F0;--card:#FFF;--ink:#2C2520;--ink-l:#6B5E54;--ink-f:#A89B90;--acc:#D4564E;--acc-s:#F2D4CF;--grn:#7BA68A;--grn-s:#D5E8D4;--blu:#3D5A80;--blu-s:#C8D6E5;--gld:#D4A843;--gld-s:#F5E6C3;--ons:#E8B96E;--ons-s:#FDF0D5;--pur:#8B7EC8;--pur-s:#E8E0F5;--pnk:#C87EA0;--sh:0 2px 16px rgba(44,37,32,.07);--r:16px;--rs:10px;--nh:64px}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--ink);min-height:100dvh;padding-top:0;padding-bottom:calc(var(--nh)+env(safe-area-inset-bottom,0)+28px);overflow-x:hidden}
+body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--ink);min-height:100dvh;padding-top:0;padding-bottom:0;overflow-x:hidden}
 /* Standalone mode: hero needs extra top padding for status bar */
 @media all and (display-mode:standalone){.hero{padding-top:calc(env(safe-area-inset-top,44px) + 16px)}}
 @supports(-webkit-touch-callout:none){body.standalone .hero{padding-top:calc(env(safe-area-inset-top,44px) + 16px)}}
@@ -45,8 +45,9 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 .ds[data-c="1"].on{background:var(--acc)}.ds[data-c="2"].on{background:var(--grn)}.ds[data-c="3"].on{background:var(--blu)}.ds[data-c="4"].on{background:var(--ons)}.ds[data-c="5"].on{background:var(--gld)}.ds[data-c="6"].on{background:var(--pur)}.ds[data-c="7"].on{background:var(--pnk)}.ds[data-c="8"].on{background:var(--ink-l)}
 
 /* ═══ Day Content ═══ */
-.day-page{display:none;padding:8px 16px 16px;animation:fi .25s ease}
+.day-page{display:none;padding:8px 16px 0;animation:fi .25s ease}
 .day-page.on{display:block}
+.day-page::after,.sec::after{content:'';display:block;height:calc(var(--nh) + env(safe-area-inset-bottom,0) + 32px)}
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .day-title{font-family:'Zen Maru Gothic';font-size:20px;font-weight:900;margin-bottom:12px}
 .day-sub{font-size:12px;color:var(--ink-l);margin-bottom:14px}
@@ -66,7 +67,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 .rv{display:inline-flex;align-items:center;gap:3px;margin-top:3px;padding:2px 8px;background:var(--acc-s);color:var(--acc);border-radius:8px;font-size:10px;font-weight:700}
 
 /* ═══ Transport & Hotel Sections ═══ */
-.sec{display:none;padding:16px}.sec.on{display:block;animation:fi .25s ease}
+.sec{display:none;padding:16px 16px 0}.sec.on{display:block;animation:fi .25s ease}
 .sec-t{font-family:'Zen Maru Gothic';font-size:19px;font-weight:900;margin-bottom:14px;display:flex;align-items:center;gap:7px}
 .tc{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;padding:16px}
 .tc-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -110,7 +111,8 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 @keyframes sp-pulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.15)}50%{box-shadow:0 8px 28px rgba(0,0,0,.22)}}
 
 /* ═══ Dashboard Home ═══ */
-.home{padding:0 16px 16px;animation:fi .4s ease}
+.home{padding:0 16px 0;animation:fi .4s ease}
+.home::after{content:'';display:block;height:calc(var(--nh) + env(safe-area-inset-bottom,0) + 32px)}
 @media all and (display-mode:standalone){.home{padding-top:env(safe-area-inset-top,44px)}}
 @supports(-webkit-touch-callout:none){body.standalone .home{padding-top:env(safe-area-inset-top,44px)}}
 .greeting-card{background:linear-gradient(135deg,#D4564E,#E8896E 60%,#D4A843);border-radius:var(--r);padding:24px 20px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden}
@@ -351,9 +353,11 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 <div class="day-title">🍜 Day 7｜福岡散步日</div>
 <div class="day-sub">4/20（一）｜住：福岡蒙特利酒店</div>
 
+<div class="it food"><div class="it-cat food">早餐</div><div class="it-name">魚ト肴 いとおかし（Itookashi）</div><div class="it-desc">春吉的超人氣海鮮朝食店，生簀鮮魚現點現殺。招牌<b>日替り朝定食</b>（約¥1,000）每天不同主菜＋小鉢四品＋白飯無限續，CP值驚人。也推薦<b>いとおかし御膳</b>（¥3,000）和<b>マグロ盛り定食</b>（¥2,800）。平日早上常排隊建議早到。⏰ 朝食 7:00-12:00（LO 11:30）、定休日 朝食僅水曜休 ✅ 週一有營業</div><a class="mb" href="https://www.google.com/maps/search/魚ト肴+いとおかし+春吉" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
 <div class="it food"><div class="it-cat food">午餐</div><div class="it-name">黒毛和牛 博多牛まぶし 武蔵</div><div class="it-desc">博多版釜飯三吃，使用A5黑毛和牛炭烤後鋪在土鍋飯上。同樣三種吃法：原味→藥味→高湯茶泡飯</div><a class="mb" href="https://www.google.com/maps/search/博多牛まぶし武蔵+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">Abeki</div><div class="it-desc">薬院的傳奇咖啡廳，手工チーズケーキ外表樸素但入口即化，綿密到令人驚嘆，是福岡甜點控的口袋名單。⏰ 12:00-18:00</div><div class="it-warn">⚠️ 定休日：每週日＋第1・3・5月曜。4/20 是第3個週一，當天休息！建議改排其他咖啡廳或改天再訪</div><a class="mb" href="https://www.google.com/maps/search/Abeki+coffee+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+
 
 <div class="it shop"><div class="it-cat shop">選物</div><div class="it-name">B.B.B POTTERS</div><div class="it-desc">複合式生活選品＋咖啡空間，嚴選陶器、餐具、布製品和生活雜貨，有附設咖啡可邊喝邊逛</div><a class="mb" href="https://www.google.com/maps/search/BBB+POTTERS+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
