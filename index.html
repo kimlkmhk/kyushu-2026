@@ -20,7 +20,7 @@
 :root{--bg:#FAF6F0;--card:#FFF;--ink:#2C2520;--ink-l:#6B5E54;--ink-f:#A89B90;--acc:#D4564E;--acc-s:#F2D4CF;--grn:#7BA68A;--grn-s:#D5E8D4;--blu:#3D5A80;--blu-s:#C8D6E5;--gld:#D4A843;--gld-s:#F5E6C3;--ons:#E8B96E;--ons-s:#FDF0D5;--pur:#8B7EC8;--pur-s:#E8E0F5;--pnk:#C87EA0;--sh:0 2px 16px rgba(44,37,32,.07);--r:16px;--rs:10px;--nh:64px}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--ink);min-height:100dvh;padding-top:0;padding-bottom:calc(var(--nh)+env(safe-area-inset-bottom,0)+12px);overflow-x:hidden}
+body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg);color:var(--ink);min-height:100dvh;padding-top:0;padding-bottom:calc(var(--nh)+env(safe-area-inset-bottom,0)+28px);overflow-x:hidden}
 /* Standalone mode: hero needs extra top padding for status bar */
 @media all and (display-mode:standalone){.hero{padding-top:calc(env(safe-area-inset-top,44px) + 16px)}}
 @supports(-webkit-touch-callout:none){body.standalone .hero{padding-top:calc(env(safe-area-inset-top,44px) + 16px)}}
@@ -83,8 +83,8 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 .hi{font-size:12px;color:var(--ink-l);line-height:1.5}
 
 /* ═══ Bottom Nav ═══ */
-.bn{position:fixed;bottom:0;left:0;right:0;height:var(--nh);background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom,0);z-index:100}
-.ni{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 14px;border-radius:12px;cursor:pointer;transition:all .2s;user-select:none;background:none;border:none;font-family:inherit}
+.bn{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nh)+env(safe-area-inset-bottom,0));background:rgba(255,255,255,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(0,0,0,.06);display:flex;align-items:stretch;justify-content:space-evenly;padding-bottom:env(safe-area-inset-bottom,0);z-index:100}
+.ni{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;min-height:var(--nh);cursor:pointer;transition:all .2s;user-select:none;background:none;border:none;font-family:inherit;-webkit-tap-highlight-color:transparent}
 .ni svg{width:20px;height:20px;color:var(--ink-f);transition:color .2s}.ni span{font-size:10px;color:var(--ink-f);font-weight:500;transition:color .2s}
 .ni.on svg{color:var(--acc)}.ni.on span{color:var(--acc);font-weight:700}.ni.on{background:var(--acc-s)}
 
@@ -233,7 +233,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">HANDS 博多</div><div class="it-desc">AMU PLAZA 內1-5F，日系生活雜貨、文具、廚房用品、美妝小物，雜貨控天堂</div><a class="mb" href="https://www.google.com/maps/search/ハンズ博多店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">MUEN COFFEE</div><div class="it-desc">博多站附近風格咖啡廳，空間靜謐適合歇腳，手沖咖啡水準穩定</div><a class="mb" href="https://www.google.com/maps/search/MUEN+COFFEE+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">MUEN COFFEE</div><div class="it-desc">祇園站步行1分鐘的和風自家烘焙咖啡廳，灰調空間配枯山水裝飾超有氛圍。推薦招牌「レッドラテ」和抹茶ティラミス。⏰ 8:00-19:00（金土~23:00）、全年無休</div><a class="mb" href="https://www.google.com/maps/search/MUEN+COFFEE+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
 <div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">博多一雙（博多駅東本店）</div><div class="it-desc">濃厚「泡系」豚骨拉麵代表，湯頭經長時間熬煮呈乳白泡沫狀，配上極細麵條，重口味豚骨控必訪</div><a class="mb" href="https://www.google.com/maps/search/博多一双+博多駅東本店" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 </div>
@@ -259,7 +259,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it shop"><div class="it-cat shop">逛街</div><div class="it-name">大名區域</div><div class="it-desc">福岡的裏原宿，隱藏大量古著店、獨立咖啡廳、選物店和個性小店。隨意鑽巷弄探險最有趣</div><a class="mb" href="https://www.google.com/maps/search/大名+福岡+ショッピング" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">光珈琲 HIKARU COFFEE</div><div class="it-desc">大名區人氣自家烘焙咖啡廳，木質調空間搭配柔和燈光，手沖單品咖啡和自製甜點都很出色</div><a class="mb" href="https://www.google.com/maps/search/光珈琲+HIKARU+COFFEE+福岡+大名" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">光珈琲 HIKARU COFFEE</div><div class="it-desc">大名區人氣自家烘焙，元警察官轉行開的咖啡店。木質空間搭配柔和燈光，手沖單品和自製甜點都很出色。⏰ 8:00-18:00、不定休（出發前查 IG @hikarucoffee.japan 確認）</div><a class="mb" href="https://www.google.com/maps/search/光珈琲+HIKARU+COFFEE+福岡+大名" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
 <div class="it food"><div class="it-cat food">晚餐</div><div class="it-name">麺や兼虎</div><div class="it-desc">福岡辛辣沾麵No.1，極粗麵條沾濃厚辣味豚骨醬汁，辣度可選。排隊名店但翻桌快，回博多站附近吃剛好</div><a class="mb" href="https://www.google.com/maps/search/麺や兼虎+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 </div>
@@ -353,7 +353,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it food"><div class="it-cat food">午餐</div><div class="it-name">黒毛和牛 博多牛まぶし 武蔵</div><div class="it-desc">博多版釜飯三吃，使用A5黑毛和牛炭烤後鋪在土鍋飯上。同樣三種吃法：原味→藥味→高湯茶泡飯</div><a class="mb" href="https://www.google.com/maps/search/博多牛まぶし武蔵+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">Abeki</div><div class="it-desc">隱密巷弄內的風格咖啡廳，空間小巧但氛圍極佳，適合午後慢慢喝一杯手沖</div><a class="mb" href="https://www.google.com/maps/search/Abeki+coffee+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">Abeki</div><div class="it-desc">薬院的傳奇咖啡廳，手工チーズケーキ外表樸素但入口即化，綿密到令人驚嘆，是福岡甜點控的口袋名單。⏰ 12:00-18:00</div><div class="it-warn">⚠️ 定休日：每週日＋第1・3・5月曜。4/20 是第3個週一，當天休息！建議改排其他咖啡廳或改天再訪</div><a class="mb" href="https://www.google.com/maps/search/Abeki+coffee+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
 <div class="it shop"><div class="it-cat shop">選物</div><div class="it-name">B.B.B POTTERS</div><div class="it-desc">複合式生活選品＋咖啡空間，嚴選陶器、餐具、布製品和生活雜貨，有附設咖啡可邊喝邊逛</div><a class="mb" href="https://www.google.com/maps/search/BBB+POTTERS+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
@@ -361,7 +361,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it shop"><div class="it-cat shop">咖啡器具</div><div class="it-name">FILTER SUPPLY</div><div class="it-desc">手沖咖啡器具專門店，展售各品牌濾杯、手沖壺、磨豆機等，咖啡控的天堂</div><a class="mb" href="https://www.google.com/maps/search/FILTER+SUPPLY+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
-<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">COFFEE COUNTY Fukuoka</div><div class="it-desc">福岡精品咖啡代表，自家烘焙淺焙為主，風味明亮乾淨。店面簡潔現代，也可帶咖啡豆回家</div><a class="mb" href="https://www.google.com/maps/search/COFFEE+COUNTY+Fukuoka" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">COFFEE COUNTY Fukuoka</div><div class="it-desc">福岡精品咖啡代表，久留米發跡的自家烘焙名店。淺焙為主，風味明亮乾淨帶水果調性。店面簡潔現代，也可帶咖啡豆回家。⏰ 10:00-18:30、定休日 水曜 ✅ 週一有營業</div><a class="mb" href="https://www.google.com/maps/search/COFFEE+COUNTY+Fukuoka" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
 <div class="it shop"><div class="it-cat shop">商場</div><div class="it-name">博多運河城（Canal City Hakata）</div><div class="it-desc">福岡最大複合型購物中心，運河貫穿中庭有定時水舞表演。H&M、ZARA、無印良品、迪士尼商店、拉麵競技場等超過250間店舖</div><a class="mb" href="https://www.google.com/maps/search/キャナルシティ博多" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
@@ -375,7 +375,7 @@ body{font-family:'Noto Sans TC','Zen Maru Gothic',sans-serif;background:var(--bg
 
 <div class="it transport"><div class="it-cat transport">退房</div><div class="it-name">福岡蒙特利酒店退房</div><div class="it-desc">11:00 前完成退房後，可先把大件行李寄放在櫃台，再輕鬆去喝咖啡和吃鰻魚飯。回機場前再回飯店取行李，動線會更從容。</div><a class="mb" href="https://www.google.com/maps/search/ホテルモントレ福岡+渡辺通3-4-13" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>飯店導航</a></div>
 
-<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">豆香洞咖啡</div><div class="it-desc">福岡自家烘焙老舖，店主後藤直紀曾獲日本咖啡烘焙冠軍。現場手沖風味極佳，咖啡豆是最好的福岡伴手禮</div><a class="mb" href="https://www.google.com/maps/search/豆香洞コーヒー+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
+<div class="it food"><div class="it-cat food">咖啡</div><div class="it-name">豆香洞咖啡</div><div class="it-desc">焙煎世界冠軍後藤直紀的店。推薦博多リバレインモール店（離博多站較近），現場手沖風味極佳，咖啡豆是最好的福岡伴手禮。⏰ 博多リバレイン店 10:00-19:00 全年無休 ／ 白木原本店 10:00-18:00 水曜定休 ✅ 週二有營業</div><a class="mb" href="https://www.google.com/maps/search/豆香洞コーヒー+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
 <div class="it food"><div class="it-cat food">午餐</div><div class="it-name">Unaginoeito（鰻のえいと）</div><div class="it-desc">福岡人氣鰻魚飯專門店，現殺現烤蒲燒鰻魚，外皮焦香肉質軟嫩，搭配特製甘醬油醬汁</div><div class="it-time">🕐 12:00 ｜ 2名</div><div class="rv">📋 已預約 12:00</div><a class="mb" href="https://www.google.com/maps/search/鰻のえいと+福岡" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>導航</a></div>
 
